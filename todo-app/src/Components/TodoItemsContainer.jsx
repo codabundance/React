@@ -1,10 +1,8 @@
 import TodoItem from "./TodoItem";
-import styles from './TodoItemsContainer.module.css';
-
-let TodoItemsContainer = ({ todoItems }) => {
+let TodoItemsContainer = ({ TodoItems, onDeleteClick }) => {
     return (
         <div className="container text-center">
-            {todoItems.map((item) => <TodoItem todoItem={item} />)}
+            {TodoItems.map((item) => <TodoItem todoItem={item} onDelClick ={onDeleteClick} />)}
         </div>
     )
 }

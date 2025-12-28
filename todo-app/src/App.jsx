@@ -1,20 +1,27 @@
 import AddTodoItem from './Components/AddTodoItem.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TodoItemsContainer from './Components/TodoItemsContainer.jsx';
+import { useState } from 'react';
+import TaskCompleted from './Components/TaskCompleted.jsx';
 
 function App() {
-  const todoItems = [
-    { id: 1, text: "Buy Milk", dueDate: "27/12/2025" },
-    { id: 2, text: "Buy Bread", dueDate: "27/12/2025" },
-    { id: 2, text: "Buy Veggies", dueDate: "27/12/2025" },
-    { id: 2, text: "Pay EMI", dueDate: "1/1/2026" },
-    { id: 2, text: "Pay Rent", dueDate: "1/1/2026" }
-  ];
+  let [todoItems, setTodoItems] = useState([]);
+
+  let addTodoItem = (itemName, itemDate) =>{
+      let tempItem = {text : itemName, dueDate: itemDate};
+      let newTodoItem = [...todoItems, tempItem];
+      setTodoItems(newTodoItem);
+  }
+  let deleteTodoItem = (itemName) => {
+      let newTodoItem = todoItems.filter(item =>  item.text != itemName)
+      setTodoItems(newTodoItem);
+  }
   return (
     <>
     <center><h1>TODO App</h1></center>
-      <AddTodoItem />
-      <TodoItemsContainer todoItems={todoItems}/>
+      <AddTodoItem onAddClick = {addTodoItem}/>
+      {todoItems.length === 0 && <TaskCompleted></TaskCompleted>}
+      <TodoItemsContainer TodoItems={todoItems} onDeleteClick ={deleteTodoItem}/>
     </>
   )
 }
