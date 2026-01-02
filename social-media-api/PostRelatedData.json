@@ -1,0 +1,19 @@
+{
+  "Posts": [
+    {
+      "PostID": "_r_0_",
+      "PostText": "I am learning react and it is awesome to use and work with !!",
+      "Title": "I am feeling Awesome !!"
+    },
+    {
+      "PostID": "_r_0_",
+      "PostText": "Celebrated New year with family at BLR Brewry and it was an awesome experience",
+      "Title": "New Year Celebrations 2026 !!"
+    },
+    {
+      "PostID": "_r_0_",
+      "PostText": "I am trying to create a new Post",
+      "Title": "New Post Alert !!"
+    }
+  ]
+}

@@ -6,14 +6,14 @@ const Post = ({ content }) => {
 
   return (
     <>
-      <div className="card post-card" style={{ width: '18rem' }}>
+      <div className="card post-card" style={{ width: '65rem' }}>
         <div className="card-body">
-          <h5 className="card-title">{content.Title}</h5>
-          <p className="card-text">{content.PostText}</p>
+          <h5 className="card-title">{content.title}</h5>
+          <p className="card-text">{content.postText}</p>
           <a
             href="#"
             className="btn btn-primary"
-            onClick={() => deletePost(content.PostID)}
+            onClick={() => deletePost(content.postID)}
           >
             Delete Post
           </a>

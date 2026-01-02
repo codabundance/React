@@ -4,30 +4,62 @@ export const PostStore = createContext({
   Posts: [],
   createPost: () => {},
   deletePost: () => {},
+  getInitialPosts: () => {},
 });
+
+let createPostOnServer = (data) => {
+  const response = fetch('http://localhost:5199/posts/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error('Failure');
+  }
+};
+
+let deletePostOnServer = (id) => {
+  const response = fetch(`http://localhost:5199/posts/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) {
+    throw new Error('Failure');
+  }
+};
 
 let postsReducer = (currentPosts, action) => {
   let newPostItems = currentPosts;
   if (action.type === 'Create') {
-    newPostItems = [action.value, ...currentPosts];
+    createPostOnServer(action.value);
+    //newPostItems = [action.value, ...currentPosts];
   } else if (action.type === 'Delete') {
-    newPostItems = currentPosts.filter((x) => x.PostID != action.value);
+    deletePostOnServer(action.value);
+    //newPostItems = currentPosts.filter((x) => x.postID != action.value);
+  } else if (action.type === 'Load') {
+    newPostItems = action.value;
   }
   return newPostItems;
 };
-
+//Wrapper component to abstract all the JS logic from UI components.
 let SocialMediaPostProvider = (props) => {
   const defaultPost = [
-    { PostID: 0, PostText: 'This is a new post !!', Title: 'Dummy Title' },
+    { postID: 0, postText: 'This is a new post !!', title: 'Dummy Title' },
   ];
   //const [posts, setPosts] = useState(defaultPost);
-  const [posts, postsDispatcher] = useReducer(postsReducer, defaultPost);
+  const [posts, postsDispatcher] = useReducer(postsReducer, []);
 
   const createPostItem = (postId, postData) => {
     var postItem = {
-      PostID: postId,
-      PostText: postData.postText,
-      Title: postData.postTitle,
+      postData: {
+        postID: postId,
+        postText: postData.postText,
+        title: postData.postTitle,
+      },
     };
     let action = {
       type: 'Create',
@@ -48,12 +80,21 @@ let SocialMediaPostProvider = (props) => {
     // setPosts(newPosts);
   };
 
+  const fetchInitialPosts = (posts) => {
+    let action = {
+      type: 'Load',
+      value: posts,
+    };
+    postsDispatcher(action);
+  };
+
   return (
     <PostStore.Provider
       value={{
         Posts: posts,
         createPost: createPostItem,
         deletePost: deletePostItem,
+        getInitialPosts: fetchInitialPosts,
       }}
     >
       {props.children}

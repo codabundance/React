@@ -1,14 +1,35 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Post from './Post';
 import { PostStore } from '../store/PostsProviders';
+import WelcomeMessage from './WelcomeMessage';
+import LoadingSpinner from './LoadingSpinner';
 
 const PostList = () => {
-  let { Posts } = useContext(PostStore);
+  let { Posts, getInitialPosts } = useContext(PostStore);
+  let [fetching, setFetching] = useState(false);
+  useEffect(() => {
+    setFetching(true);
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetch('http://localhost:5199/Posts', { signal })
+      .then((res) => res.json())
+      .then((data) => {
+        getInitialPosts(data.posts);
+        setFetching(false);
+      });
+    // This block wil get called when this component is destroyed.
+    return () => {
+      controller.abort();
+    };
+  }, []);
   return (
     <>
-      {Posts.map((post) => (
-        <Post content={post}></Post>
-      ))}
+      {fetching && <LoadingSpinner />}
+      {!fetching && Posts.length == 0 && <WelcomeMessage />}
+      {!fetching &&
+        Posts.map((post) => <Post content={post} key={post.postID}></Post>)}
     </>
   );
 };

@@ -9,7 +9,7 @@ const CreatePost = () => {
   let postId = useId();
 
   let handleAddClick = (event) => {
-    //event.preventDefault();
+    event.preventDefault();
     let postData = {
       postText: postContent.current.value,
       postTitle: postTitle.current.value,
