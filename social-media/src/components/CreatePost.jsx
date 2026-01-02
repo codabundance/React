@@ -1,6 +1,7 @@
 import { useContext, useRef, useState } from 'react';
 import { PostStore } from '../store/PostsProviders';
 import { useId } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePost = () => {
   const { createPost } = useContext(PostStore);

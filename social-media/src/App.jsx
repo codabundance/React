@@ -7,6 +7,7 @@ import CreatePost from './components/CreatePost';
 import PostList from './components/PostList';
 import { useState } from 'react';
 import SocialMediaPostProvider from './store/PostsProviders';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   const [selectedTab, setSelectedTab] = useState('Home');
@@ -17,11 +18,12 @@ function App() {
         <Sidebar selectedTab={selectedTab} ClickSelectedTab={setSelectedTab}></Sidebar>
         <div className="content-container">
           <Header></Header>
-          {selectedTab === 'Home' ? (
+          <Outlet/>
+          {/* {selectedTab === 'Home' ? (
             <PostList></PostList>
           ) : (
             <CreatePost></CreatePost>
-          )}
+          )} */}
           <Footer></Footer>
         </div>
       </div>

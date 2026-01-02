@@ -1,4 +1,5 @@
 import { createContext, useReducer, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const PostStore = createContext({
   Posts: [],
@@ -41,9 +42,7 @@ let postsReducer = (currentPosts, action) => {
 };
 //Wrapper component to abstract all the JS logic from UI components.
 let SocialMediaPostProvider = (props) => {
-  const defaultPost = [
-    { postID: 0, postText: 'This is a new post !!', title: 'Dummy Title' },
-  ];
+  const navigation = useNavigate();
   //const [posts, setPosts] = useState(defaultPost);
   const [posts, postsDispatcher] = useReducer(postsReducer, []);
 
@@ -59,6 +58,7 @@ let SocialMediaPostProvider = (props) => {
       value: postItem,
     };
     postsDispatcher(action);
+    navigation('/');
     // var newPostItem = [...posts, postItem];
     // setPosts(newPostItem);
   };
