@@ -1,4 +1,6 @@
 using contracts;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Common;
 using System.Formats.Tar;
@@ -46,7 +48,7 @@ var summaries = new[]
 
 app.MapGet("/Posts", () =>
 {
-    Thread.Sleep(5000);
+    Thread.Sleep(3000);
     var ExistingJsonDataText = File.ReadAllText("PostRelatedData.json");
     return JsonSerializer.Deserialize<PostResponse>(ExistingJsonDataText, jsonOptions);
 })
@@ -55,20 +57,22 @@ app.MapGet("/Posts", () =>
 
 app.MapPost("/Posts/Create", (PostRequest post) =>
 {
-    Thread.Sleep(5000);
+    Thread.Sleep(3000);
+    post!.PostData!.PostID = Guid.NewGuid().ToString();
     string filePath = "PostRelatedData.json";
     var ExistingJsonDataText = File.ReadAllText(filePath);
     var ExistingPosts = JsonSerializer.Deserialize<PostResponse>(ExistingJsonDataText, jsonOptions);
     ExistingPosts?.Posts?.Add(post.PostData);
     var NewPostData = JsonSerializer.Serialize<PostResponse>(ExistingPosts, jsonOptions);
     File.WriteAllText("PostRelatedData.json", NewPostData);
+    return post!.PostData!.PostID;
 })
 .WithName("CreatePost")
 .WithOpenApi();
 
 app.MapDelete("/Posts/{id}", (string id) =>
 {
-    Thread.Sleep(5000);
+    Thread.Sleep(3000);
     string filePath = "PostRelatedData.json";
     var ExistingJsonDataText = File.ReadAllText(filePath);
     var ExistingPosts = JsonSerializer.Deserialize<PostResponse>(ExistingJsonDataText, jsonOptions);

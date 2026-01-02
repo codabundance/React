@@ -15,9 +15,6 @@ let createPostOnServer = (data) => {
     },
     body: JSON.stringify(data),
   });
-  if (!response.ok) {
-    throw new Error('Failure');
-  }
 };
 
 let deletePostOnServer = (id) => {
@@ -27,9 +24,6 @@ let deletePostOnServer = (id) => {
       'Content-Type': 'application/json',
     },
   });
-  if (!response.ok) {
-    throw new Error('Failure');
-  }
 };
 
 let postsReducer = (currentPosts, action) => {
@@ -39,7 +33,7 @@ let postsReducer = (currentPosts, action) => {
     //newPostItems = [action.value, ...currentPosts];
   } else if (action.type === 'Delete') {
     deletePostOnServer(action.value);
-    //newPostItems = currentPosts.filter((x) => x.postID != action.value);
+    newPostItems = currentPosts.filter((x) => x.postID != action.value);
   } else if (action.type === 'Load') {
     newPostItems = action.value;
   }
@@ -56,7 +50,6 @@ let SocialMediaPostProvider = (props) => {
   const createPostItem = (postId, postData) => {
     var postItem = {
       postData: {
-        postID: postId,
         postText: postData.postText,
         title: postData.postTitle,
       },

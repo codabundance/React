@@ -1,19 +1,14 @@
 {
   "Posts": [
     {
-      "PostID": "_r_0_",
-      "PostText": "I am learning react and it is awesome to use and work with !!",
-      "Title": "I am feeling Awesome !!"
+      "PostID": "499a1325-5a06-4cd3-8e5c-99dbbb00761c",
+      "PostText": "How are you?",
+      "Title": "Welcome"
     },
     {
-      "PostID": "_r_0_",
-      "PostText": "Celebrated New year with family at BLR Brewry and it was an awesome experience",
-      "Title": "New Year Celebrations 2026 !!"
-    },
-    {
-      "PostID": "_r_0_",
-      "PostText": "I am trying to create a new Post",
-      "Title": "New Post Alert !!"
+      "PostID": "f94d3ab6-0b28-4b25-bdf6-eaf662acf334",
+      "PostText": "Look for good in any situation and discard the bad",
+      "Title": "Life is all about possibilities"
     }
   ]
 }
